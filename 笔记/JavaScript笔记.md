@@ -147,3 +147,80 @@ substring()返回指定索引区间的字符串：
 <pre><code>var s = 'hello, world'
 s.substring(0,5) ; // 从索引0开始到5（不包括5），返回'hello'
 s.substring(7); // 从索引7开始到结束，返回'world'</code></pre>
+##数组 
+JavaScript的Array可以包含任意的数据类型，并且通过索引来访问每个元素。
+通过length属性直接取得数组的长度：
+<pre><code>var arr = [1,2,3.14,'hello',null,true];
+arr.length; // 6</code></pre>
+请注意，*直接给Array的length赋一个新的值会导致Array的大小发生变化*：
+<pre><code>var arr = [1,2,3];
+arr.length; // 3
+arr.length = 6; // arr变为[1,2,3,undefined,,undefined,undefined]
+arr.length = 2; //arr变为[1,2]</code></pre>
+Array可以通过索引把对应的元素修改为新的值，因此对Array的索引进行赋值会直接修改这个Array：
+>略
+
+请注意，*如果通过索引赋值时，索引超过了范围吗，同样会引起Array大小的变化*:
+<pre><code>var arr = [1,2,3];
+arr[5] = 'x'; // arr变为[1,2,3,undefined,undefined,x]</code></pre>
+大多数的编程语言不允许直接改变数组的大小，越界访问索引会报错。然而，JavaScript的Array却不会有任何的错误。在编写代码的时候，不建议直接修改Array的大小，访问索引的时候要确保索引不会越界。
+###indexOf
+与String类似，Array也可以通过indexOf()来搜索一个指定位置的元素,如果不存在则返回-1：
+>略
+
+###slice
+slice()是对应String的subString()方法，它截取Array的部分元素，然后返回一个新的Array:
+<pre><code>var arr = [1,2,3,4,5,6,7];
+arr.slice(0,3); // 从索引0开始，到索引3结束，但是不包括3：[1,2,3]
+arr.slice(3); // 从索引3开始到结束：[4,5,6,7]</code></pre>
+如果不给slice()传递任何参数，它就会从头到尾截取所有的元素。利用这一点，我们可以很容易的复制一个Array:
+>略
+
+###push和pop
+push()是向Array的末尾添加若干元素，pop()则把Array的最后一个元素删除掉：
+<pre><code>var arr = [1,2];
+arr.push('A','B'); // 返回Arra的新的长度 4
+arr; // [1,2,'A','B']
+arr.pop(); // 返回‘B’
+arr; // [1,2,'A']
+arr.pop();arr.pop();arr.pop(); //arr = []
+arr.pop(); // 空数组继续pop不会报错，而是返回undefined</code></pre>
+###unshift和shift
+如果要往Array的头部添加若干元素，使用unshift()方法，shift()方法则是把Array的第一个元素删除(与push和pop相对应)：
+>略
+
+###sort 
+sort()可以对当前的Array进行排序，它会直接修改当前Array的元素位置，直接调用时，按照默认顺序排序:
+<pre><code>var arr = [3,1,2];
+arr.sort();
+arr; // [1,2,3]</code></pre>
+###reverse
+reverse()把整个Array反转：
+<pre><code>var arr = [1,2,3];
+arr.reverse(); // arr [3,2,1]</code></pre>
+###splice
+splice()方法是修改Array的“万能方法”，它可以从指定索引开始删除若干的元素，然后再从该位置添加若干的元素：
+<pre><code>var arr = ['Microsoft','Apple','Yahoo','AOL','Excite','Oracle']; 
+//从索引2开始删除3个元素，然后再添加两个元素
+arr.splice(2,3,'Google','Facebook'); // 返回删除的元素['Yahoo','AOL','Excite']
+arr; // ['Microsoft','Apple','Google','Facebook','Oracle']
+//只删除不添加
+arr.splice(2,2); // 返回['Google','Facebook']
+//只添加不删除
+arr.splice(2,0,'Google','Facebook'); // 返回[]，因为没有删除任何元素</code></pre>
+###concat
+connact()方法把当前的Array和另一个Array连接起来，并返回一个新的Array：
+<pre><code>var arr = [1,2,3];
+var added = arr.concat(['A','B','C']); // added = [1,2,3,'A','B','C']</code></pre>
+请注意，*concat()方法没有修改当前的Array，而是返回一个新的Array*
+实际上concat()方法可以接受任意个元素和Array，并且自动把Array拆开，然后全部添加到新的Array里：
+<pre><code>var arr = [1,2,3];
+arr.concat('A','B',[4,5,6]); // 返回[1,2,3,'A','B',4,5,6]</code></pre>
+###join
+join()方法是一个非常实用的方法，它把当前Array的每个元素都用指定的字符串连接起来，然后返回连接后的字符串:
+<pre><code>var arr = [1,2,3,4];
+arr.join('-'); // 返回'1-2-3-4'</code></pre>
+如果Array的元素不是字符串，则将自动转换为字符串后连接。
+###多维数组
+如果数组的某个元素又是一个Array，则可以形成多维数组:
+>略
