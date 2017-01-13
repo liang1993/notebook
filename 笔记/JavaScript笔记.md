@@ -1,5 +1,6 @@
-﻿#JavaScript笔记
+﻿参考自[这里](http://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000)
 
+#快速入门
 ##基本语法
 JavaScript语法与java类似，每个语句以;技术，语句块使用{...}。但是并不强制要求在每个语句的结尾加;。但是让JavaScript引擎自动加分号，在某些情况下会改变程序的语意，影响程序的运行结果。
 赋值语句:
@@ -41,9 +42,9 @@ Infinity; //表示无限大，当数值超过了JavaScript的Number所能表示�
 
 ####布尔值
 布尔值和布尔代数的表示完全一致，一个布尔值只有true,false两种。可以直接用true,false表示布尔值，也可以通过布尔运算得出：
->true ; 
+>true ;
 false ;
-2 > 1 ; // true 
+2 > 1 ; // true
 2 < 1 ; // false
 
 常用的运算还有 "&&"与运算，"||"或运算，"!"非运算，">、<、>=、<=、==、==="。其中值得注意的是"=="和"===":
@@ -147,7 +148,7 @@ substring()返回指定索引区间的字符串：
 <pre><code>var s = 'hello, world'
 s.substring(0,5) ; // 从索引0开始到5（不包括5），返回'hello'
 s.substring(7); // 从索引7开始到结束，返回'world'</code></pre>
-##数组 
+##数组
 JavaScript的Array可以包含任意的数据类型，并且通过索引来访问每个元素。
 通过length属性直接取得数组的长度：
 <pre><code>var arr = [1,2,3.14,'hello',null,true];
@@ -189,7 +190,7 @@ arr.pop(); // 空数组继续pop不会报错，而是返回undefined</code></pre
 如果要往Array的头部添加若干元素，使用unshift()方法，shift()方法则是把Array的第一个元素删除(与push和pop相对应)：
 >略
 
-###sort 
+###sort
 sort()可以对当前的Array进行排序，它会直接修改当前Array的元素位置，直接调用时，按照默认顺序排序:
 <pre><code>var arr = [3,1,2];
 arr.sort();
@@ -200,7 +201,7 @@ reverse()把整个Array反转：
 arr.reverse(); // arr [3,2,1]</code></pre>
 ###splice
 splice()方法是修改Array的“万能方法”，它可以从指定索引开始删除若干的元素，然后再从该位置添加若干的元素：
-<pre><code>var arr = ['Microsoft','Apple','Yahoo','AOL','Excite','Oracle']; 
+<pre><code>var arr = ['Microsoft','Apple','Yahoo','AOL','Excite','Oracle'];
 //从索引2开始删除3个元素，然后再添加两个元素
 arr.splice(2,3,'Google','Facebook'); // 返回删除的元素['Yahoo','AOL','Excite']
 arr; // ['Microsoft','Apple','Google','Facebook','Oracle']
@@ -224,3 +225,200 @@ arr.join('-'); // 返回'1-2-3-4'</code></pre>
 ###多维数组
 如果数组的某个元素又是一个Array，则可以形成多维数组:
 >略
+
+##对象
+JavaScript对象是一种无序的集合数据类型，它由若干键值对组成：
+<pre><code>var xiaoming = {
+    name:'小明',
+    birth:1990,
+    school:'No.1 Middle School',
+    height:1.70,
+    weight:65,
+    score:null
+};</code></pre>
+注意，*最后一个键值对不需要在末尾加,*
+访问变量是通过.操作符来完成，但是要求属性名必须是一个有效的变量名，如果属性名包含特殊字符，就必须用''括起来：
+<pre><code>var xiaohong{
+    name:'xiaohong',
+    'middle-school':'No.1 Middle School'
+};</code></pre>
+xiaohong的属性名middle-school不是一个有效的变量，就需要用''括起来。访问这个属性也无法使用.操作符必须使用['xxx']来访问:
+<pre><code>xiaohong['middle-school']; // 'No.1 Middle School'</code></pre>
+实际上JavaScript对象的所有的属性都是字符串，不过属性对应的值可以是任意的数据类型。
+如果访问一个不存在的属性会放回什么呢？JavaScript规定，访问不存在的属性不报错，而是返回undefined：
+<pre><code>var xiaoming = {
+    name:'小明'
+}；
+xiaoming.age; // undefined</code></pre>
+由于JavaScript的对象是动态类型，你可以自由的给一个对象添加或者删除属性：
+<pre><code>var xiaoming={
+    name = 'xiaoming'
+};
+xiaoming.age = 18; // 新增一个age属性
+delete xiaoming.age; // 删除age属性
+xiaoming.age; // undefined
+delete xiaoming['name']; // 删除name属性
+delete xiaoming.school; // 删除一个不存在的属性也不会报错 </code></pre>
+如果我们要检测xiaoming是否拥有某一属性，可以用in操作符：
+<pre><code>var xiaoming = {
+    name:'小明',
+    birth:1990,
+    school:'No.1 Middle School',
+    height:1.70,
+    school:null
+};
+'name' in xiaoming; // true
+'grade' in xiaoming; // false
+</code></pre>
+如果in判断一个属性存在，这个属性不一定是xiaoming的，它可能是xiaoming继承得到的：
+<pre><code>'toString' in xiaoming; // true</code></pre>
+因为toString定义在Object对象中，而所有的对象最终都会在原型链上只想Object，所以xiaoming也拥有toString属性。
+要判断一个属性是否是xiaoming自身拥有的，而不是继承得到的，可以用hasOwnProperty()方法：
+<pre><code>var xiaoming={
+    name:'小明'
+};
+xiaoming.hasOwnProperty('name'); // true
+xiaoming.hasOwnProperty('toString'); // false</code></pre>
+##条件判断
+JavaScript使用if(){...}else{...}来进行条件判断：
+>略
+
+###多行条件判断
+如果还要更细致的判断条件，可以使用过个if(){...}else if(){...}else{...}组合：
+>略
+
+请注意，if...else...语句的执行特点是二选一，在多个if...else...语句中，如果某个条件成立，就不会再继续判断了：
+<pre><code>var age = 20;
+if(age >= 6){
+    alert('teenager');
+}else if(age >= 18){
+    alert('adult');
+}else{
+    alert('kid');
+}; // only alert teenager</code></pre>
+
+如果判断条件语句的结果不是true和false怎么办？例如：
+<pre><code>var s = '123';
+if(s.length){ // 计算结果为3
+}</code></pre>
+JavaScript把null，undefined，0，NaN和空字符串''视为false，其他值一概视为true，因此上述代码判断的结果是true。
+##循环
+JavaScript的循环有两种，一种是for循环，通过初始条件，结束条件和递增条件来循环执行语句：
+<pre><code>var x= 0;
+var i;
+for(i=0; i<=10000; i++){
+    x = x+i;
+}
+x; // 50005000</code></pre>
+for循环最常用的地方就是利用索引来遍历数组:
+>略
+
+for循环的3个条件都是可以省略的，如果没有退出循环的判断条件，就必须使用break语句来中断循环，否则会产生死循环:
+<pre><code>var x = 0;
+for(;;){ // 将无限循环下去
+    if(x > 10000){
+        break; // 通过满足的if的判断，执行break跳出循环
+    }
+    x++;
+}</code></pre>
+###for...in
+for循环的一个变体是for...in 循环，它可以把一个对象的所有的属性依次循环出来:
+<pre><code>var o = {
+    name:'Jack',
+    age:20,
+    city:'Beijing'
+};
+for(var key in o){
+    alert key;
+}</code></pre>
+要过滤掉对象继承的属性，只需要在循环体里面对hasOwnProperty()进行判断:
+>略
+
+由于Array也是对象，而它的每个元素的索引被视为对象的属性，因此，for...in循环可以直接循环出Array的索引：
+<pre><code>var a = ['A','B','C'];
+for(var i in a){
+    alert(i); // 0,1,2
+    alert(a[i]); //'A','B','C'
+}</code></pre>
+请注意，*for...in对Array的循环得到的是String而不是Number*
+###while
+for循环在已知循环的初始和结束条件时非常有用，而上述忽略了条件的for循环很容易让人看不懂循环的逻辑，此时使用while循环更加：
+<pre><code>var x = 0;
+var n = 99;
+while(n > 0){
+    x = x + n;
+    n = n - 2;
+} // x = 2500 </code></pre>
+###do...while
+最后一种循环是do{...}while()循环，他和while循环的唯一区别在于，不是每次循环开始时的判断条件，而是在每次循环完成时的判断条件：
+<pre><code>var n = 0;
+do{
+    n = n + 1;
+}while(n < 100); // n = 100</code></pre>
+用do{...}while()时注意，*循环体至少执行11次，而for和while循环体可能一次都不执行*
+##Map和Set
+JavaScript的默认对象的表现方式是{}，可以视为其他语言中的Map和Dictionary的数据结构，即一组键值对。
+但是JavaScript的对象有个小问题，就是键必须是字符串。但实际上Number或其他数据类型作为键也是很合理的。
+为了解决这个问题，ES6规范引入了新的数据类型Map。
+###Map
+Map是一组键值对的结构，具有极快的查询速度。初始化一个map:
+<pre><code>//二维数组创建
+var m = new Map([['Michael',95],['Bob',75],['Tracy',85]]);
+m.get('Micheal'); // 95
+//初始化空map，通过api添加元素
+var m = new Map();
+m.set('Adam',67);
+m.has('Adam'); // 是否存在，true;
+m.get('Adam'); //67
+m.delete('Adam');
+m.get('Adam'); // undefined
+</code></pre>
+由于一个key只能对应一个value，所以，多次对一个key放入value，后面的值会覆盖掉前面的值：
+>略
+
+###Set
+Set和Map类似，也是一组key的集合，但是不存储value。由于key不能重复，所以，在Set中，没有重复的元素。
+<pre><code>//通过输入Array来创建set
+var s1 = new Set([1,2,3]);
+//创建一个空的set，通过api来添加元素
+var s2 = new Set();
+s2.add(1); // {1}
+s2.add(1); // {1} 可以重复添加相同的元素，但是没有效果
+s2.delete(1);</code></pre>
+*创建时的重复的元素会被自动过滤掉*
+##iterable
+遍历Array可以采用下标循环，循环Map和Set就无法使用下标，为了统一集合类型，ES6标准引入了新的iterable类型，Array,Map和Set都属于iterable类型。具有iterable类型的集合都可以通过新的for...of循环来遍历。
+for...of循环是ES6引入的新的语法。
+<pre><code>var a = ['A','B','C'];
+var s = new Set(['A','B','C']);
+var m - new Map([[1,'x'],[2,'y'],[3,'z']]);
+for(var x of a){ // } // 遍历Array
+for(var x of s){ // } // 遍历Set
+for(var x of m){ // } // 遍历Map</code></pre>
+for...of循环和for...in循环有何区别？
+for...in循环由于历史遗留问题，它遍历的实际上是对象的属性名称。一个Array数组实际上也是一个对象，它的每个元素的所以被视为一个属性。
+当我们手动给Array对象添加了额外的属性后，for...in循环会带来意想不到效果:
+<pre><code>var a = [1,2,3];
+a.name = 'hello';
+for(var x in a){
+  // '1','2','3','name'
+}</code></pre>
+for...in 将数组的属性name也包括在内了，但Array的length属性却不包括在内。
+for...of循环则完全修复了这个问题，它只循环了数组的元素。
+>略
+
+这就是为什么要引入for...of循环的原因。
+然后，更好的方式是直接使用iterable内置的forEach方法，它接受一个函数，每次迭代就自动回调该函数：
+<pre><code>var = ['a','b','c'];
+a.forEach(function(elementm ,index,array)){
+    //element:指向当前元素的值
+    //index:指向当前索引
+    //array:指向Array对象本身
+};</code></pre>
+Set和Array类似，但是Set没有索引，因此回调函数的前两个参数都指向元素本身：
+>略
+
+Map的回调函数参数一次是value，key和map本身：
+>略
+
+如果对某些参数不感兴趣，由于JavaScript的函数调用不要求参数必须一致，因此可以忽略他们。
